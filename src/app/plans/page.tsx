@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
-import { Backpack } from "lucide-react";
 import { IoArrowBackCircle } from "react-icons/io5";
 import Link from "next/link";
 
@@ -17,16 +16,27 @@ type PlanType = {
 export default function PlansPage() {
   const [plans, setPlans] = useState<PlanType[]>([]);
 
+
+  async function deletePlans(id: string) {
+    await fetch(`http://localhost:3000/plans/${id}`, {
+      method: "DELETE"
+    });
+
+    fetchCustomers();
+  }
+
+  async function fetchCustomers() {
+    const response = await fetch("http://localhost:3000/plans" ); 
+    const data = await response.json();
+    console.log(data);
+    
+    setPlans(data);
+  }
+
   useEffect(() => {
-    async function fetchPlans() {
-      const response = await fetch("http://localhost:3000/plans" ); // Ajuste a rota conforme necessário
-      const data = await response.json();
-      console.log(data);
-      
-      setPlans(data);
-    }
-    fetchPlans();
+    fetchCustomers();
   }, []);
+
 
   return (
     <div className="max-w-screen-xl mx-auto p-6">
@@ -35,7 +45,12 @@ export default function PlansPage() {
           <Link href="/"><IoArrowBackCircle size={32}/></Link>
           Planos
         </h2>
-        <Button><FaPlus size={20} /> Novo</Button>
+        <Button asChild>
+          <Link href="/plans/novo">
+            <FaPlus size={20} />
+            Novo
+          </Link>
+        </Button>
       </div>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white shadow-md rounded-lg">
@@ -57,7 +72,7 @@ export default function PlansPage() {
                 <td className="py-3 px-6 text-left">{plan.dataPackage}</td>
                 <td className="py-3 px-6 text-center flex justify-center gap-2">
                   <Button variant="outline" size="icon"><FaEdit /></Button>
-                  <Button variant="destructive" size="icon"><FaTrash /></Button>
+                  <Button variant="destructive" size="icon"onClick={() => deletePlans(plan.id)} ><FaTrash /></Button>
                 </td>
               </tr>
             ))}

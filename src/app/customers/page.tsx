@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
 import Link from "next/link";
 import { IoArrowBackCircle } from "react-icons/io5";
+import { useRouter } from "next/navigation";
 
 type CustomerType = {
   id: string,
@@ -14,16 +15,27 @@ type CustomerType = {
 }
 
 export default function CustomersPage() {
+  const router = useRouter();
+
   const [customers, setCustomers] = useState<CustomerType[]>([]);
 
+  async function deleteCustomer(id: string) {
+    await fetch(`http://localhost:3000/customers/${id}`, {
+      method: "DELETE"
+    });
+
+    fetchCustomers();
+  }
+
+  async function fetchCustomers() {
+    const response = await fetch("http://localhost:3000/customers" ); 
+    const data = await response.json();
+    console.log(data);
+    
+    setCustomers(data);
+  }
+
   useEffect(() => {
-    async function fetchCustomers() {
-      const response = await fetch("http://localhost:3000/customers" ); // Ajuste a rota conforme necessário
-      const data = await response.json();
-      console.log(data);
-      
-      setCustomers(data);
-    }
     fetchCustomers();
   }, []);
 
@@ -35,7 +47,11 @@ export default function CustomersPage() {
 
           Clientes
           </h2>
-        <Button><FaPlus size={20} /> Novo</Button>
+        <Button asChild>
+          <Link href="/customers/novo">
+           <FaPlus size={20} /> Novo
+          </Link>
+        </Button>
       </div>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white shadow-md rounded-lg">
@@ -56,8 +72,10 @@ export default function CustomersPage() {
                 <td className="py-3 px-6 text-left">{customer.phone}</td>
                 <td className="py-3 px-6 text-left">{customer.email}</td>
                 <td className="py-3 px-6 text-center flex justify-center gap-2">
-                  <Button variant="outline" size="icon"><FaEdit /></Button>
-                  <Button variant="destructive" size="icon"><FaTrash /></Button>
+                  <Button variant="outline" size="icon" onClick={() => router.push(`/customers/${customer.id}/editar`)}>
+                    <FaEdit />
+                  </Button>
+                  <Button variant="destructive" size="icon" onClick={() => deleteCustomer(customer.id)}><FaTrash /></Button>
                 </td>
               </tr>
             ))}
