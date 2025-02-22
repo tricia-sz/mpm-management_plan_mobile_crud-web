@@ -1,10 +1,6 @@
-import { LocateFixed, LocateIcon, LocateOffIcon, Mail } from "lucide-react";
-import { BsWhatsapp } from "react-icons/bs";
 import { FaLocationDot } from "react-icons/fa6";
 import { IoIosMailOpen } from "react-icons/io";
-import { IoLocateSharp, IoLogoWhatsapp } from "react-icons/io5";
-
-
+import { IoLogoWhatsapp } from "react-icons/io5";
 
 export function Footer() {
   return (

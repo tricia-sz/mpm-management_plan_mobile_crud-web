@@ -4,16 +4,18 @@ import { Button } from "@/components/ui/button";
 import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
 import { IoArrowBackCircle } from "react-icons/io5";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type PlanType = {
   id: string,
   planName: string,
-  price: string,
+  price: number,
   dataPackage: number,
   callMinutes: number
 }
 
 export default function PlansPage() {
+    const router = useRouter();
   const [plans, setPlans] = useState<PlanType[]>([]);
 
 
@@ -71,8 +73,11 @@ export default function PlansPage() {
                 <td className="py-3 px-6 text-left">{plan.callMinutes}</td>
                 <td className="py-3 px-6 text-left">{plan.dataPackage}</td>
                 <td className="py-3 px-6 text-center flex justify-center gap-2">
-                  <Button variant="outline" size="icon"><FaEdit /></Button>
-                  <Button variant="destructive" size="icon"onClick={() => deletePlans(plan.id)} ><FaTrash /></Button>
+                <Button variant="outline" size="icon" onClick={() => router.push(`/plans/${plan.id}/editar`)}>
+                    <FaEdit />
+                  </Button>
+                  <Button variant="destructive" size="icon" onClick={() => deletePlans(plan.id)}><FaTrash /></Button>
+
                 </td>
               </tr>
             ))}

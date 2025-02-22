@@ -9,7 +9,7 @@ import { FaCheckCircle } from "react-icons/fa";
 import { IoArrowBackCircle } from "react-icons/io5";
 import { MdCancel } from "react-icons/md";
 
-export default function EditPlansPage() {
+export default function EditCustomersPage() {
   const { id } = useParams();
 
   const [planName, setPlanName] = useState<string>("");
@@ -34,7 +34,7 @@ export default function EditPlansPage() {
   };
 
   useEffect(() => {
-    async function loadPlan() {
+    async function loadPlans() {
       const response = await fetch(`http://localhost:3000/plans/${id}`);
 
       const data: any = await response.json();
@@ -45,7 +45,7 @@ export default function EditPlansPage() {
       setDataPackage(data.dataPackage)
       setCallMinutes(data.callMinutes)
     }
-    loadPlan()
+    loadPlans()
   }, []);
 
   return (
@@ -91,7 +91,7 @@ export default function EditPlansPage() {
             />
           </div>
           <div>
-            <Label htmlFor="dataPackage">Franquia de dados</Label>
+            <Label htmlFor="dataPackage">Franquia de Dados</Label>
             <Input
               id="data-package"
               value={dataPackage}
@@ -100,7 +100,7 @@ export default function EditPlansPage() {
             />
           </div>
           <div>
-            <Label htmlFor="callMinutes">E-mail</Label>
+            <Label htmlFor="callMinutes">Minutos por chamada</Label>
             <Input
               id="call-minutes"
               value={callMinutes}
