@@ -68,7 +68,7 @@ export default function NewCustomersPage() {
             <Label htmlFor="price">Preço</Label>
             <Input
               id="price"
-              value={price}
+              value={price ? price : '' }
               onChange={({ target }) => setPrice(+target.value)}
               type="number"
             />
@@ -77,7 +77,7 @@ export default function NewCustomersPage() {
             <Label htmlFor="dataPackage">Franquia de dados</Label>
             <Input
               id="data-package"
-              value={dataPackage}
+              value={dataPackage ? dataPackage : ''}
               onChange={({ target }) => setDataPackage(+target.value)}
               type="number"
             />
@@ -86,7 +86,7 @@ export default function NewCustomersPage() {
             <Label htmlFor="callMinutes">Minutos de ligação</Label>
             <Input
               id="call-minutes"
-              value={callMinutes}
+              value={callMinutes ? callMinutes : ''}
               onChange={({ target }) => setCallMinutes(+target.value)}
               type="number"
             />

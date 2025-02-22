@@ -29,7 +29,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-br" className={`${oxanium.variable} ${montserrat.variable}`}>
+    <html 
+      lang="pt-br" 
+      suppressHydrationWarning
+      className={`${oxanium.variable} ${montserrat.variable}`}>
       <body>
         <Header />
         {children}
